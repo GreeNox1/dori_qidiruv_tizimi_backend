@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: pharmasearch_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: pharmasearch_db
+      POSTGRES_USER: pharma_user
+      POSTGRES_PASSWORD: pharma_password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/2_seed.sql
+
+volumes:
+  pgdata:
